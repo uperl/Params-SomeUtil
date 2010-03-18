@@ -26,4 +26,4 @@ requires:
 resources:
   ChangeLog: http://fisheye2.atlassian.com/changelog/cpan/trunk/Params-Util
   repository: http://svn.ali.as/cpan/trunk/Params-Util
-version: 1.00
+version: 1.01
