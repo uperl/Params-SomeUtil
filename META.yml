@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Params-Util
-version:            1.02_01
+version:            1.03
 abstract:           Simple, compact and correct param-checking functions
 author:
     - Adam Kennedy <adamk@cpan.org>
