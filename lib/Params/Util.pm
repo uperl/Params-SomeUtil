@@ -64,7 +64,7 @@ require DynaLoader;
 
 use vars qw{$VERSION @ISA @EXPORT_OK %EXPORT_TAGS};
 
-$VERSION   = '1.03';
+$VERSION   = '1.04';
 @ISA       = qw{
 	Exporter
 	DynaLoader
@@ -801,7 +801,7 @@ L<Params::Validate>
 
 =head1 COPYRIGHT
 
-Copyright 2005 - 2010 Adam Kennedy.
+Copyright 2005 - 2011 Adam Kennedy.
 
 This program is free software; you can redistribute
 it and/or modify it under the same terms as Perl itself.
