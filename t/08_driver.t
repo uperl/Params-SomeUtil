@@ -13,7 +13,7 @@ BEGIN {
 	ok( ! defined &_CLASSISA, '_CLASSISA does not exist' );
 	ok( ! defined &_SUBCLASS, '_SUBCLASS does not exist' );
 	ok( ! defined &_DRIVER,   '_DRIVER does not exist'   );
-	use_ok('Params::Util', qw(_CLASSISA _SUBCLASS _DRIVER));
+	use_ok('Params::SomeUtil', qw(_CLASSISA _SUBCLASS _DRIVER));
 	ok(   defined &_CLASSISA, '_CLASSISA imported ok'    );
 	ok(   defined &_SUBCLASS, '_SUBCLASS imported ok'    );
 	ok(   defined &_DRIVER,   '_DRIVER imported ok'      );
@@ -115,7 +115,7 @@ is( _SUBCLASS('E', 'A'), undef, 'E: Not a driver returns undef' );
 is( _SUBCLASS('F', 'A'), 'F',   'F: Faked isa returns ok' );
 
 SKIP: {
-	use_ok('Params::Util', qw(_CLASSDOES));
+	use_ok('Params::SomeUtil', qw(_CLASSDOES));
 
 	skip "DOES tests do not make sense on perls before 5.10", 4
 	  unless $] >= 5.010;

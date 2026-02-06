@@ -10,7 +10,7 @@ BEGIN {
 use Test::More tests => 26;
 use File::Spec::Functions ':ALL';
 BEGIN {
-	use_ok( 'Params::Util', ':ALL' );
+	use_ok( 'Params::SomeUtil', ':ALL' );
 }
 
 

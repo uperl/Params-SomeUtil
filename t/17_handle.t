@@ -11,7 +11,7 @@ use Test::More tests => 23;
 use File::Spec::Functions ':ALL';
 BEGIN {
 	ok( ! defined &_HANDLE, '_HANDLE does not exist' );
-	use_ok('Params::Util', qw(_HANDLE));
+	use_ok('Params::SomeUtil', qw(_HANDLE));
 	ok( defined &_HANDLE, '_HANDLE imported ok' );
 }
 

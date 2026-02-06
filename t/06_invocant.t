@@ -10,15 +10,15 @@ BEGIN {
 use Test::More tests => 11;
 use File::Spec::Functions ':ALL';
 BEGIN {
-	use_ok('Params::Util', qw(_INVOCANT));
+	use_ok('Params::SomeUtil', qw(_INVOCANT));
 }
 
-my $object = bless \do { my $i } => 'Params::Util::Test::Bogus::Whatever';
+my $object = bless \do { my $i } => 'Params::SomeUtil::Test::Bogus::Whatever';
 my $false_obj1 = bless \do { my $i } => 0;
 my $false_obj2 = bless \do { my $i } => "\0";
-my $tied   = tie my $x, 'Params::Util::Test::_INVOCANT::Tied';
-my $unpkg  = 'Params::Util::Test::_INVOCANT::Fake';
-my $pkg    = 'Params::Util::Test::_INVOCANT::Real'; eval "package $pkg;"; ## no critic
+my $tied   = tie my $x, 'Params::SomeUtil::Test::_INVOCANT::Tied';
+my $unpkg  = 'Params::SomeUtil::Test::_INVOCANT::Fake';
+my $pkg    = 'Params::SomeUtil::Test::_INVOCANT::Real'; eval "package $pkg;"; ## no critic
 
 my @data = (# I
   [ undef        , 0, 'undef' ],
@@ -44,7 +44,7 @@ for my $datum (@data) {
 # fails on at least one common production OS (RedHat Enterprise Linux 4)
 # and the test case should be practically impossible to encounter
 # in real life. The damage the bug could cause users in production is
-# far lower than the damage caused by Params::Util failing to install.
+# far lower than the damage caused by Params::SomeUtil failing to install.
 SKIP: {
 	unless ( $ENV{AUTOMATED_TESTING} ) {
 		skip("Skipping nasty test unless AUTOMATED_TESTING", 1);
@@ -52,7 +52,7 @@ SKIP: {
 	ok( !! _INVOCANT($false_obj2), 'Testing null class as an invocant' );
 }
 
-package Params::Util::Test::_INVOCANT::Tied;
+package Params::SomeUtil::Test::_INVOCANT::Tied;
 sub TIESCALAR {
   my ($class, $value) = @_;
   return bless \$value => $class;

@@ -62,7 +62,7 @@ if ( $] > 5.006 ) {
 plan tests => $tests;
 
 # Import the function
-use_ok( 'Params::Util', '_CODELIKE' );
+use_ok( 'Params::SomeUtil', '_CODELIKE' );
 ok( defined *_CODELIKE{CODE}, '_CODELIKE imported ok' );
 
 while ( @callables ) {

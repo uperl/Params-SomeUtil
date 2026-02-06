@@ -10,7 +10,7 @@ BEGIN {
 use Test::More tests => 44;
 use Scalar::Util 'refaddr';
 use File::Spec::Functions ':ALL';
-use Params::Util qw{_ARRAYLIKE _HASHLIKE};
+use Params::SomeUtil qw{_ARRAYLIKE _HASHLIKE};
 
 # Tests that two objects are the same object
 sub addr {

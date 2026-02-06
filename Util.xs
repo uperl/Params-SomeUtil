@@ -75,7 +75,7 @@ is_like( SV *sv, const char *like )
     return likely;
 }
 
-MODULE = Params::Util		PACKAGE = Params::Util
+MODULE = Params::SomeUtil		PACKAGE = Params::SomeUtil
 
 void
 _STRING(sv)

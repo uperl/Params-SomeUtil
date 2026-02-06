@@ -12,7 +12,7 @@ use Test::More tests => 4;
 use File::Spec::Functions ':ALL';
 
 # Does the module load
-use_ok('Params::Util');
+use_ok('Params::SomeUtil');
 
 # Double check that Scalar::Util is valid
 require_ok( 'Scalar::Util' );
