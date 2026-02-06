@@ -14,3 +14,4 @@ t/16_invocant.t
 t/17_handle.t
 t/18_driver.t
 t/19_insideout.t
+/MYMETA.*

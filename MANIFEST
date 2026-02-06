@@ -33,6 +33,7 @@ t/driver/F.pm
 t/driver/My_B.pm
 t/handles/handle.txt
 t/handles/readfile.txt
+t/alt.t
 xt/meta.t
 xt/pmv.t
 xt/pod.t
