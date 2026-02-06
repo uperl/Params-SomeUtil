@@ -1,1 +1,16 @@
 *.bak
+/Makefile
+/SomeUtil.bs
+/SomeUtil.c
+/SomeUtil.o
+/blib/
+/pm_to_blib
+t/11_compile.t
+t/12_main.t
+t/13_all.t
+t/14_codelike.t
+t/15_typelike.t
+t/16_invocant.t
+t/17_handle.t
+t/18_driver.t
+t/19_insideout.t
