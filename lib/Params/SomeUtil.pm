@@ -821,6 +821,20 @@ sub _DRIVER ($$) {
 }
 END_PERL
 
+sub _alt_hook {
+    package
+       Params::Util;
+
+    our @EXPORT_OK   = @Params::SomeUtil::EXPORT_OK;
+    our @ISA         = @Params::SomeUtil::ISA;
+    our %EXPORT_TAGS = %Params::SomeUtil::EXPORT_TAGS;
+
+    foreach my $sub (@EXPORT_OK) {
+        no strict 'refs';
+        *{$sub} = \&{"Params::SomeUtil::$sub"};
+    }
+}
+
 1;
 
 =pod
