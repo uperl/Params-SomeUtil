@@ -140,7 +140,7 @@ C<'0'> false negative case, but will return it.
 Please also note that this function expects a normal string. It does
 not support overloading or other magic techniques to get a string.
 
-Returns the string as a conveince if it is a valid string, or
+Returns the string as a convenience if it is a valid string, or
 C<undef> if not.
 
 =cut
@@ -271,7 +271,7 @@ a number. That is, it is defined and perl thinks it's a number.
 This function is basically a Params::SomeUtil-style wrapper around the
 L<Scalar::Util> C<looks_like_number> function.
 
-Returns the value as a convience, or C<undef> if the value is not a
+Returns the value as a convenience, or C<undef> if the value is not a
 number.
 
 =cut
@@ -292,7 +292,7 @@ The C<_POSINT> function is intended to be imported into your
 package, and provides a convenient way to test to see if a value is
 a positive integer (of any length).
 
-Returns the value as a convience, or C<undef> if the value is not a
+Returns the value as a convenience, or C<undef> if the value is not a
 positive integer.
 
 The name itself is derived from the XML schema constraint of the same
@@ -315,11 +315,11 @@ package, and provides a convenient way to test to see if a value is
 a non-negative integer (of any length). That is, a positive integer,
 or zero.
 
-Returns the value as a convience, or C<undef> if the value is not a
+Returns the value as a convenience, or C<undef> if the value is not a
 non-negative integer.
 
 As with other tests that may return false values, care should be taken
-to test via "defined" in boolean validy contexts.
+to test via "defined" in valid boolean contexts.
 
   unless ( defined _NONNEGINT($value) ) {
      die "Invalid value";
@@ -730,7 +730,7 @@ bit fuzzy, so this function is likely to be somewhat imperfect (at first
 anyway).
 
 That said, it is implement as well or better than the other file handle
-detectors in existance (and we stole from the best of them).
+detectors in existence (and we stole from the best of them).
 
 =cut
 
