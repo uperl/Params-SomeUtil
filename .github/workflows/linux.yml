@@ -16,28 +16,49 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        cip_tag:
-          - "5.41"
-          - "5.40"
-          - "5.38"
-          - "5.36"
-          - "5.34"
-          - "5.32"
-          - "5.30"
-          - "5.28"
-          - "5.26"
-          - "5.24"
-          - "5.22"
-          - "5.20"
-          - "5.18"
-          - "5.16"
-          - "5.14"
-          - "5.12"
-          - "5.10"
-          - "5.8"
+        cip:
+          - tag: "5.41"
+            pp: 0
+          - tag: "5.40"
+            pp: 1
+          - tag: "5.40"
+            pp: 0
+          - tag: "5.38"
+            pp: 0
+          - tag: "5.36"
+            pp: 0
+          - tag: "5.34"
+            pp: 0
+          - tag: "5.32"
+            pp: 0
+          - tag: "5.30"
+            pp: 0
+          - tag: "5.28"
+            pp: 0
+          - tag: "5.26"
+            pp: 0
+          - tag: "5.24"
+            pp: 0
+          - tag: "5.22"
+            pp: 0
+          - tag: "5.20"
+            pp: 0
+          - tag: "5.18"
+            pp: 0
+          - tag: "5.16"
+            pp: 0
+          - tag: "5.14"
+            pp: 0
+          - tag: "5.12"
+            pp: 0
+          - tag: "5.10"
+            pp: 0
+          - tag: "5.8"
+            pp: 0
 
     env:
-      CIP_TAG: ${{ matrix.cip_tag }}
+      CIP_PP: ${{ matrix.cip.pp }}
+      CIP_TAG: ${{ matrix.cip.tag }}
 
     steps:
       - uses: actions/checkout@v4
