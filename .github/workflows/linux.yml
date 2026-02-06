@@ -57,7 +57,7 @@ jobs:
             pp: 0
 
     env:
-      CIP_PP=${{ matrix.cip.pp }}
+      CIP_PP: ${{ matrix.cip.pp }}
       CIP_TAG: ${{ matrix.cip.tag }}
 
     steps:
