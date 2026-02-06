@@ -79,7 +79,7 @@ WriteMakefile(
 	},
 	BUILD_REQUIRES => {
 		'ExtUtils::MakeMaker' => '6.52',
-		'Test::More'          => '0.42',
+		'Test::More'          => '0.87',
 		'File::Spec'          => '0.80',
 	},
 
