@@ -65,7 +65,7 @@ WriteMakefile(
 	# NO_META            => 1,
 	NAME               => 'Params::SomeUtil',
 	ABSTRACT           => 'Simple, compact and correct param-checking functions',
-	VERSION_FROM       => 'lib/Params/Util.pm',
+	VERSION_FROM       => 'lib/Params/SomeUtil.pm',
 	AUTHOR             => 'Adam Kennedy <adamk@cpan.org>',
 	LICENSE            => 'perl',
 	DEFINE             => '-DPERL_EXT',
