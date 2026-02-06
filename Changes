@@ -1,4 +1,6 @@
-Revision history for Perl extension Params-Util
+Revision history for Perl extension Params-SomeUtil
+
+  - Forked from Params-Util version 1.07 as Params-SomeUtil
 
 1.07 Sun 11 Mar 2012
 	- Disable XS version on cygwin as it shows bizarre behaviour

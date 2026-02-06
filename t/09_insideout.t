@@ -12,7 +12,7 @@ BEGIN {
 
 use Test::More tests => 2;
 use Scalar::Util ();
-use Params::Util ();
+use Params::SomeUtil ();
 
 
 
@@ -24,7 +24,7 @@ use Params::Util ();
 SCOPE: {
 	my $object = Foo->new;
 	ok( Scalar::Util::blessed($object), 'Foo' );
-	my $instance = Params::Util::_INSTANCE($object, 'Foo');
+	my $instance = Params::SomeUtil::_INSTANCE($object, 'Foo');
 	is( $instance, undef, '_INSTANCE correctly returns undef' );
 }
 
