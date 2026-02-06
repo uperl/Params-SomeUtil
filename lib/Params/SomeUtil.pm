@@ -166,7 +166,8 @@ C<undef> if not.
 
 eval <<'END_PERL' unless defined &_IDENTIFIER;
 sub _IDENTIFIER ($) {
-	(defined $_[0] and ! ref $_[0] and $_[0] =~ m/^[^\W\d]\w*\z/s) ? $_[0] : undef;
+	my $arg = shift;
+	(defined $arg and ! ref $arg and $arg =~ m/^[^\W\d]\w*\z/s) ? $arg : undef;
 }
 END_PERL
 
@@ -189,7 +190,8 @@ C<undef> if not.
 
 eval <<'END_PERL' unless defined &_CLASS;
 sub _CLASS ($) {
-	(defined $_[0] and ! ref $_[0] and $_[0] =~ m/^[^\W\d]\w*(?:::\w+)*\z/s) ? $_[0] : undef;
+	my $arg = shift;
+	(defined $arg and ! ref $arg and $arg =~ m/^[^\W\d]\w*(?:::\w+)*\z/s) ? $arg : undef;
 }
 END_PERL
 
@@ -215,7 +217,8 @@ C<undef> if not.
 
 eval <<'END_PERL' unless defined &_CLASSISA;
 sub _CLASSISA ($$) {
-	(defined $_[0] and ! ref $_[0] and $_[0] =~ m/^[^\W\d]\w*(?:::\w+)*\z/s and $_[0]->isa($_[1])) ? $_[0] : undef;
+	my($string, $class) = @_;
+	(defined $string and ! ref $string and $string =~ m/^[^\W\d]\w*(?:::\w+)*\z/s and $string->isa($class)) ? $string : undef;
 }
 END_PERL
 
@@ -230,7 +233,8 @@ implemented.
 
 eval <<'END_PERL' unless defined &_CLASSDOES;
 sub _CLASSDOES ($$) {
-	(defined $_[0] and ! ref $_[0] and $_[0] =~ m/^[^\W\d]\w*(?:::\w+)*\z/s and $_[0]->DOES($_[1])) ? $_[0] : undef;
+        my($string, $role) = @_;
+	(defined $string and ! ref $string and $string =~ m/^[^\W\d]\w*(?:::\w+)*\z/s and $string->DOES($role)) ? $string : undef;
 }
 END_PERL
 
@@ -256,7 +260,8 @@ C<undef> if not.
 
 eval <<'END_PERL' unless defined &_SUBCLASS;
 sub _SUBCLASS ($$) {
-	(defined $_[0] and ! ref $_[0] and $_[0] =~ m/^[^\W\d]\w*(?:::\w+)*\z/s and $_[0] ne $_[1] and $_[0]->isa($_[1])) ? $_[0] : undef;
+	my($string, $class) = @_;
+	(defined $string and ! ref $string and $string =~ m/^[^\W\d]\w*(?:::\w+)*\z/s and $string ne $class and $string->isa($class)) ? $string : undef;
 }
 END_PERL
 
@@ -302,7 +307,7 @@ name.
 
 eval <<'END_PERL' unless defined &_POSINT;
 sub _POSINT ($) {
-	my $arg = $_[0];
+	my $arg = shift;
 	(defined $arg and ! ref $arg and $arg =~ m/^[1-9]\d*$/) ? $arg : undef;
 }
 END_PERL
@@ -333,7 +338,8 @@ name.
 
 eval <<'END_PERL' unless defined &_NONNEGINT;
 sub _NONNEGINT ($) {
-	(defined $_[0] and ! ref $_[0] and $_[0] =~ m/^(?:0|[1-9]\d*)$/) ? $_[0] : undef;
+	my $arg = shift;
+	(defined $arg and ! ref $arg and $arg =~ m/^(?:0|[1-9]\d*)$/) ? $arg : undef;
 }
 END_PERL
 
@@ -864,6 +870,10 @@ Adam Kennedy E<lt>adamk@cpan.orgE<gt>
 Maintained by
 
 Graham Ollis (PLICEASE)
+
+Contributors
+
+Paul Cochrane E<lt>paul@liekut.deE<gt>
 
 =head1 SEE ALSO
 

@@ -1,6 +1,9 @@
 Revision history for Perl extension Params-SomeUtil
 
   - Forked from Params-Util version 1.07 as Params-SomeUtil
+  - Fix bug where passing regex match variables ($1) returns
+    undef regardless of value for some functions (rt#81276)
+    (thanks Paul Cochrane)
 
 1.07 Sun 11 Mar 2012
 	- Disable XS version on cygwin as it shows bizarre behaviour

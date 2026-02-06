@@ -7,7 +7,7 @@ BEGIN {
 	$ENV{PERL_PARAMS_UTIL_PP} ||= 0;
 }
 
-use Test::More tests => 634;
+use Test::More;
 use File::Spec::Functions ':ALL';
 use Scalar::Util 'refaddr';
 use Params::SomeUtil ();
@@ -45,6 +45,8 @@ null( Params::SomeUtil::_STRING(\"foo"),       '...::_STRING(SCALAR) returns und
 # Test good things against the actual function (carefully)
 foreach my $ident ( qw{0 1 foo _foo foo1 __foo_1 Foo::Bar}, ' ', ' foo' ) {
 	is( Params::SomeUtil::_STRING($ident), $ident, "...::_STRING('$ident') returns ok" );
+	$ident =~ /(.*)/;
+	is(Params::SomeUtil::_STRING($1), $1, "...::_STRING('$1') returns ok");
 }
 
 # Import the function
@@ -64,6 +66,8 @@ null( _STRING(\"foo"),       '_STRING(SCALAR) returns undef' );
 # Test good things against the actual function (carefully)
 foreach my $ident ( qw{0 1 foo _foo foo1 __foo_1 Foo::Bar}, ' ', ' foo' ) {
 	is( _STRING($ident), $ident, "...::_STRING('$ident') returns ok" );
+	$ident =~ /(.*)/;
+	is(_STRING($1), $1, "...::_STRING('$1') returns ok");
 }
 
 
@@ -90,6 +94,8 @@ null( Params::SomeUtil::_IDENTIFIER("foo\n"),      '...::_IDENTIFIER(BAD) return
 # Test good things against the actual function (carefully)
 foreach my $ident ( qw{foo _foo foo1 __foo_1} ) {
 	is( Params::SomeUtil::_IDENTIFIER($ident), $ident, "...::_IDENTIFIER('$ident') returns ok" );
+	$ident =~ /(.*)/;
+	is(Params::SomeUtil::_IDENTIFIER($1), $1, "...::_IDENTIFIER('$1') returns ok");
 }
 
 # Import the function
@@ -113,6 +119,8 @@ null( _IDENTIFIER("foo\n"),      '_IDENTIFIER(BAD) returns undef' );
 # Test good things against the actual function (carefully)
 foreach my $ident ( qw{foo _foo foo1 __foo_1} ) {
 	is( _IDENTIFIER($ident), $ident, "...::_IDENTIFIER('$ident') returns ok" );
+	$ident =~ /(.*)/;
+	is(_IDENTIFIER($1), $1, "_IDENTIFIER('$1') returns ok");
 }
 
 
@@ -140,6 +148,8 @@ null( Params::SomeUtil::_CLASS("1::X"),       '...::_CLASS(bad class) returns un
 # Test good things against the actual function (carefully)
 foreach my $ident ( qw{foo _foo foo1 __foo_1 Foo::Bar _Foo::Baaar::Baz X::1} ) {
 	is( Params::SomeUtil::_CLASS($ident), $ident, "...::_CLASS('$ident') returns ok" );
+	$ident =~ /(.*)/;
+	is(Params::SomeUtil::_CLASS($1), $1, "...::_CLASS('$1') returns ok");
 }
 
 # Import the function
@@ -164,6 +174,8 @@ null( _CLASS("1::X"),       '_CLASS(bad class) returns undef' );
 # Test good things against the actual function (carefully)
 foreach my $ident ( qw{foo _foo foo1 __foo_1 Foo::Bar _Foo::Baaar::Baz X::1} ) {
 	is( _CLASS($ident), $ident, "_CLASS('$ident') returns ok" );
+	$ident =~ /(.*)/;
+	is(_CLASS($1), $1, "...::_CLASS('$1') returns ok");
 }
 
 
@@ -188,6 +200,8 @@ null( Params::SomeUtil::_NUMBER("D'oh"),       '...::_NUMBER(bad class) returns 
 # Test good things against the actual function (carefully)
 foreach my $id ( qw{1 2 10 123456789 -1 0 +1 02 .1 0.013e-3 1e1} ) {
 	is( Params::SomeUtil::_NUMBER($id), $id, "...::_NUMBER('$id') returns ok" );
+	$id =~ /(.*)/;
+	is(Params::SomeUtil::_NUMBER($1), $1, "...::_NUMBER('$1') returns ok");
 }
 
 # Import the function
@@ -209,6 +223,8 @@ null( _NUMBER("D'oh"),       '_NUMBER(bad class) returns undef' );
 # Test good things against the actual function (carefully)
 foreach my $id ( qw{1 2 10 123456789 -1 0 +1 02 .1 0.013e-3 1e1} ) {
 	is( _NUMBER($id), $id, "_NUMBER('$id') returns ok" );
+	$id =~ /(.*)/;
+	is(_NUMBER($1), $1, "_NUMBER('$1') returns ok");
 }
 
 
@@ -301,6 +317,8 @@ null( Params::SomeUtil::_NONNEGINT("02"),         '...::_NONNEGINT(zero lead) re
 # Test good things against the actual function (carefully)
 foreach my $id ( qw{0 1 2 10 123456789} ) {
 	is( Params::SomeUtil::_NONNEGINT($id), $id, "...::_NONNEGINT('$id') returns ok" );
+	$id =~ /(\d+)/;
+	is(Params::SomeUtil::_NONNEGINT($1), $1, "...::_NONNEGINT('$1') returns ok");
 }
 
 # Import the function
@@ -325,6 +343,8 @@ null( _NONNEGINT("02"),         '_NONNEGINT(zero lead) returns undef' );
 # Test good things against the actual function (carefully)
 foreach my $id ( qw{0 1 2 10 123456789} ) {
 	is( _NONNEGINT($id), $id, "_NONNEGINT('$id') returns ok" );
+	$id =~ /(\d+)/;
+	is(_NONNEGINT($1), $1, "_NONNEGINT('$1') returns ok");
 }
 
 
@@ -897,6 +917,7 @@ null( _SET0($set{unblessed}, 'Foo'),     '_SET0(unblessed ARRAY) returns undef' 
 
 
 
+done_testing;
 
 exit(0);
 
