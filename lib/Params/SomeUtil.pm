@@ -24,7 +24,9 @@ Params::SomeUtil - Simple, compact and correct param-checking functions
 =head1 DESCRIPTION
 
 C<Params::SomeUtil> provides a basic set of importable functions that makes
-checking parameters a hell of a lot easier
+checking parameters a hell of a lot easier.  This module is a fork
+of version 1.07 of L<Params::Util> with some additional bug fixes, see L</WHY>
+below.
 
 While they can be (and are) used in other contexts, the main point
 behind this module is that the functions B<both> Do What You Mean,
@@ -50,6 +52,62 @@ You must explicitly name the functions you want to export, or use the
 C<:ALL> param to just have it export everything (although this is not
 recommended if you have any _FOO functions yourself with which future
 additions to C<Params::SomeUtil> may clash)
+
+=head1 WHY
+
+L<Params::Util> already exists and has for some time.  Unfortunately,
+while the current maintainer has accepted patches to the project's
+git repostiroy, he refuses to make new releases of the module.  I
+offered to help cut a new release but refused citing "quality" as an
+issue without elaborating, thus this fork.  This module includes
+the following changes that were applied after 1.07:
+
+=over 4
+
+=item Fix for L<RT#87649|https://rt.cpan.org/Public/Bug/Display.html?id=87649>
+and <RT#87649|https://rt.cpan.org/Public/Bug/Display.html?id=87649>
+
+These are for _CLASS and _POSINT, with similar fixes for _STRING,
+_IDENTIFIER, _NUMBER and _NONNEGINT.
+
+=item Fix for L<RT#115910|https://rt.cpan.org/Public/Bug/Display.html?id=115910>
+
+But without the Americanised "corrections".
+
+=back
+
+These are the intentional differences from L<Params::Util>:
+
+=over 4
+
+=item XS build is unchanged from 1.07
+
+Although some improvements can likely be made here (patches welcome), the changes made
+since 1.07 have broken the ability to install this module without a compiler.
+
+=item PP versions of functions are not in a separate module
+
+There us currently no C<Params::SomeUtil::PP>.  There probably should be, and may
+later be, but for now I wanted to make the minimum changes to make this viable.
+(patches welcome)
+
+=item Fix for L<RT#5561|https://rt.cpan.org/Public/Bug/Display.html?id=75561>
+
+The XS versions of _ARRAY, _ARRAY0, _HASH and _HASH0 were inconsistent with the pure-perl
+versions, and the documentation.  The suggested fixes in the ticket were applied for
+_ARRAY and _HASH.  It was clear to me from reading the documentation that _ARRAY0 and
+_HASH0 also had the same bug so they have also been corrected.
+
+=back
+
+This is as of L<Params::Util> version 1.102, which is the current version as of this writing.
+If there is a release of L<Params::Util> I will endevour to update this list.
+
+My preference would be for releases of L<Params::Util> resume and for it to be
+maintained by someone responsive to tickets.  I am not a direct user of L<Params::Util>,
+or L<Params::SomeUtil> and I do not particularly want to maintain this module,
+but given the way the CPAN ecosystem works this seems to strangely be the "easiest"
+way to work around the challenge that I have.
 
 =head1 FUNCTIONS
 
@@ -140,7 +198,7 @@ C<'0'> false negative case, but will return it.
 Please also note that this function expects a normal string. It does
 not support overloading or other magic techniques to get a string.
 
-Returns the string as a conveince if it is a valid string, or
+Returns the string as a convenience if it is a valid string, or
 C<undef> if not.
 
 =cut
@@ -166,7 +224,8 @@ C<undef> if not.
 
 eval <<'END_PERL' unless defined &_IDENTIFIER;
 sub _IDENTIFIER ($) {
-	(defined $_[0] and ! ref $_[0] and $_[0] =~ m/^[^\W\d]\w*\z/s) ? $_[0] : undef;
+	my $arg = shift;
+	(defined $arg and ! ref $arg and $arg =~ m/^[^\W\d]\w*\z/s) ? $arg : undef;
 }
 END_PERL
 
@@ -189,7 +248,8 @@ C<undef> if not.
 
 eval <<'END_PERL' unless defined &_CLASS;
 sub _CLASS ($) {
-	(defined $_[0] and ! ref $_[0] and $_[0] =~ m/^[^\W\d]\w*(?:::\w+)*\z/s) ? $_[0] : undef;
+	my $arg = shift;
+	(defined $arg and ! ref $arg and $arg =~ m/^[^\W\d]\w*(?:::\w+)*\z/s) ? $arg : undef;
 }
 END_PERL
 
@@ -215,7 +275,8 @@ C<undef> if not.
 
 eval <<'END_PERL' unless defined &_CLASSISA;
 sub _CLASSISA ($$) {
-	(defined $_[0] and ! ref $_[0] and $_[0] =~ m/^[^\W\d]\w*(?:::\w+)*\z/s and $_[0]->isa($_[1])) ? $_[0] : undef;
+	my($string, $class) = @_;
+	(defined $string and ! ref $string and $string =~ m/^[^\W\d]\w*(?:::\w+)*\z/s and $string->isa($class)) ? $string : undef;
 }
 END_PERL
 
@@ -230,7 +291,8 @@ implemented.
 
 eval <<'END_PERL' unless defined &_CLASSDOES;
 sub _CLASSDOES ($$) {
-	(defined $_[0] and ! ref $_[0] and $_[0] =~ m/^[^\W\d]\w*(?:::\w+)*\z/s and $_[0]->DOES($_[1])) ? $_[0] : undef;
+        my($string, $role) = @_;
+	(defined $string and ! ref $string and $string =~ m/^[^\W\d]\w*(?:::\w+)*\z/s and $string->DOES($role)) ? $string : undef;
 }
 END_PERL
 
@@ -256,7 +318,8 @@ C<undef> if not.
 
 eval <<'END_PERL' unless defined &_SUBCLASS;
 sub _SUBCLASS ($$) {
-	(defined $_[0] and ! ref $_[0] and $_[0] =~ m/^[^\W\d]\w*(?:::\w+)*\z/s and $_[0] ne $_[1] and $_[0]->isa($_[1])) ? $_[0] : undef;
+	my($string, $class) = @_;
+	(defined $string and ! ref $string and $string =~ m/^[^\W\d]\w*(?:::\w+)*\z/s and $string ne $class and $string->isa($class)) ? $string : undef;
 }
 END_PERL
 
@@ -271,7 +334,7 @@ a number. That is, it is defined and perl thinks it's a number.
 This function is basically a Params::SomeUtil-style wrapper around the
 L<Scalar::Util> C<looks_like_number> function.
 
-Returns the value as a convience, or C<undef> if the value is not a
+Returns the value as a convenience, or C<undef> if the value is not a
 number.
 
 =cut
@@ -292,7 +355,7 @@ The C<_POSINT> function is intended to be imported into your
 package, and provides a convenient way to test to see if a value is
 a positive integer (of any length).
 
-Returns the value as a convience, or C<undef> if the value is not a
+Returns the value as a convenience, or C<undef> if the value is not a
 positive integer.
 
 The name itself is derived from the XML schema constraint of the same
@@ -302,7 +365,8 @@ name.
 
 eval <<'END_PERL' unless defined &_POSINT;
 sub _POSINT ($) {
-	(defined $_[0] and ! ref $_[0] and $_[0] =~ m/^[1-9]\d*$/) ? $_[0] : undef;
+	my $arg = shift;
+	(defined $arg and ! ref $arg and $arg =~ m/^[1-9]\d*$/) ? $arg : undef;
 }
 END_PERL
 
@@ -315,11 +379,11 @@ package, and provides a convenient way to test to see if a value is
 a non-negative integer (of any length). That is, a positive integer,
 or zero.
 
-Returns the value as a convience, or C<undef> if the value is not a
+Returns the value as a convenience, or C<undef> if the value is not a
 non-negative integer.
 
 As with other tests that may return false values, care should be taken
-to test via "defined" in boolean validy contexts.
+to test via "defined" in valid boolean contexts.
 
   unless ( defined _NONNEGINT($value) ) {
      die "Invalid value";
@@ -332,7 +396,8 @@ name.
 
 eval <<'END_PERL' unless defined &_NONNEGINT;
 sub _NONNEGINT ($) {
-	(defined $_[0] and ! ref $_[0] and $_[0] =~ m/^(?:0|[1-9]\d*)$/) ? $_[0] : undef;
+	my $arg = shift;
+	(defined $arg and ! ref $arg and $arg =~ m/^(?:0|[1-9]\d*)$/) ? $arg : undef;
 }
 END_PERL
 
@@ -730,7 +795,7 @@ bit fuzzy, so this function is likely to be somewhat imperfect (at first
 anyway).
 
 That said, it is implement as well or better than the other file handle
-detectors in existance (and we stole from the best of them).
+detectors in existence (and we stole from the best of them).
 
 =cut
 
@@ -863,6 +928,22 @@ Adam Kennedy E<lt>adamk@cpan.orgE<gt>
 Maintained by
 
 Graham Ollis (PLICEASE)
+
+Contributors
+
+Paul Cochrane (PTC)
+
+Ricardo Signes (RGBS)
+
+RAFL
+
+Andrew Main (ZEFRAM)
+
+David Golden (DAGOLDEN)
+
+Tatsuhiko Miyagawa (MIYAGAWA)
+
+Peter Rabbitson (RIBASUSHI)
 
 =head1 SEE ALSO
 

@@ -95,6 +95,22 @@ WriteMakefile(
 	clean => {
 		FILES => join( ' ', @clean ),
 	},
+
+    META_MERGE => {
+        'meta-spec' => { version => 2 },
+        resources => {
+            bugtracker => {
+                web  => 'https://github.com/uperl/Params-SomeUtil/issues',
+            },
+            homepage => 'https://metacpan.org/pod/Params::SomeUtil',
+            repository => {
+                type => 'git',
+                url  => 'https://github.com/uperl/Params-SomeUtil.git',
+                web  => 'https://github.com/uperl/Params-SomeUtil',
+            },
+            x_IRC => "irc://irc.perl.org/#native",
+        },
+    },
 );
 
 

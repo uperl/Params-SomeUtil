@@ -7,7 +7,7 @@ BEGIN {
 	$ENV{PERL_PARAMS_UTIL_PP} ||= 0;
 }
 
-use Test::More tests => 632;
+use Test::More;
 use File::Spec::Functions ':ALL';
 use Scalar::Util 'refaddr';
 use Params::SomeUtil ();
@@ -45,6 +45,8 @@ null( Params::SomeUtil::_STRING(\"foo"),       '...::_STRING(SCALAR) returns und
 # Test good things against the actual function (carefully)
 foreach my $ident ( qw{0 1 foo _foo foo1 __foo_1 Foo::Bar}, ' ', ' foo' ) {
 	is( Params::SomeUtil::_STRING($ident), $ident, "...::_STRING('$ident') returns ok" );
+	$ident =~ /(.*)/;
+	is(Params::SomeUtil::_STRING($1), $1, "...::_STRING('$1') returns ok");
 }
 
 # Import the function
@@ -64,6 +66,8 @@ null( _STRING(\"foo"),       '_STRING(SCALAR) returns undef' );
 # Test good things against the actual function (carefully)
 foreach my $ident ( qw{0 1 foo _foo foo1 __foo_1 Foo::Bar}, ' ', ' foo' ) {
 	is( _STRING($ident), $ident, "...::_STRING('$ident') returns ok" );
+	$ident =~ /(.*)/;
+	is(_STRING($1), $1, "...::_STRING('$1') returns ok");
 }
 
 
@@ -90,6 +94,8 @@ null( Params::SomeUtil::_IDENTIFIER("foo\n"),      '...::_IDENTIFIER(BAD) return
 # Test good things against the actual function (carefully)
 foreach my $ident ( qw{foo _foo foo1 __foo_1} ) {
 	is( Params::SomeUtil::_IDENTIFIER($ident), $ident, "...::_IDENTIFIER('$ident') returns ok" );
+	$ident =~ /(.*)/;
+	is(Params::SomeUtil::_IDENTIFIER($1), $1, "...::_IDENTIFIER('$1') returns ok");
 }
 
 # Import the function
@@ -113,6 +119,8 @@ null( _IDENTIFIER("foo\n"),      '_IDENTIFIER(BAD) returns undef' );
 # Test good things against the actual function (carefully)
 foreach my $ident ( qw{foo _foo foo1 __foo_1} ) {
 	is( _IDENTIFIER($ident), $ident, "...::_IDENTIFIER('$ident') returns ok" );
+	$ident =~ /(.*)/;
+	is(_IDENTIFIER($1), $1, "_IDENTIFIER('$1') returns ok");
 }
 
 
@@ -140,6 +148,8 @@ null( Params::SomeUtil::_CLASS("1::X"),       '...::_CLASS(bad class) returns un
 # Test good things against the actual function (carefully)
 foreach my $ident ( qw{foo _foo foo1 __foo_1 Foo::Bar _Foo::Baaar::Baz X::1} ) {
 	is( Params::SomeUtil::_CLASS($ident), $ident, "...::_CLASS('$ident') returns ok" );
+	$ident =~ /(.*)/;
+	is(Params::SomeUtil::_CLASS($1), $1, "...::_CLASS('$1') returns ok");
 }
 
 # Import the function
@@ -164,6 +174,8 @@ null( _CLASS("1::X"),       '_CLASS(bad class) returns undef' );
 # Test good things against the actual function (carefully)
 foreach my $ident ( qw{foo _foo foo1 __foo_1 Foo::Bar _Foo::Baaar::Baz X::1} ) {
 	is( _CLASS($ident), $ident, "_CLASS('$ident') returns ok" );
+	$ident =~ /(.*)/;
+	is(_CLASS($1), $1, "...::_CLASS('$1') returns ok");
 }
 
 
@@ -188,6 +200,8 @@ null( Params::SomeUtil::_NUMBER("D'oh"),       '...::_NUMBER(bad class) returns 
 # Test good things against the actual function (carefully)
 foreach my $id ( qw{1 2 10 123456789 -1 0 +1 02 .1 0.013e-3 1e1} ) {
 	is( Params::SomeUtil::_NUMBER($id), $id, "...::_NUMBER('$id') returns ok" );
+	$id =~ /(.*)/;
+	is(Params::SomeUtil::_NUMBER($1), $1, "...::_NUMBER('$1') returns ok");
 }
 
 # Import the function
@@ -209,6 +223,8 @@ null( _NUMBER("D'oh"),       '_NUMBER(bad class) returns undef' );
 # Test good things against the actual function (carefully)
 foreach my $id ( qw{1 2 10 123456789 -1 0 +1 02 .1 0.013e-3 1e1} ) {
 	is( _NUMBER($id), $id, "_NUMBER('$id') returns ok" );
+	$id =~ /(.*)/;
+	is(_NUMBER($1), $1, "_NUMBER('$1') returns ok");
 }
 
 
@@ -239,6 +255,12 @@ foreach my $id ( qw{1 2 10 123456789} ) {
 	is( Params::SomeUtil::_POSINT($id), $id, "...::_POSINT('$id') returns ok" );
 }
 
+{
+    my $pos_int = 2;
+    $pos_int =~ /(\d+)/;
+    is( Params::SomeUtil::_POSINT($1), $1, "...::_POSINT('$1') returns ok" );
+}
+
 # Import the function
 use_ok( 'Params::SomeUtil', '_POSINT' );
 ok( defined *_POSINT{CODE}, '_POSINT imported ok' );
@@ -262,6 +284,12 @@ null( _POSINT("02"),         '_POSINT(zero lead) returns undef' );
 # Test good things against the actual function (carefully)
 foreach my $id ( qw{1 2 10 123456789} ) {
 	is( _POSINT($id), $id, "_POSINT('$id') returns ok" );
+}
+
+{
+    my $pos_int = 2;
+    $pos_int =~ /(\d+)/;
+    is( _POSINT($1), $1, "...::_POSINT('$1') returns ok" );
 }
 
 
@@ -289,6 +317,8 @@ null( Params::SomeUtil::_NONNEGINT("02"),         '...::_NONNEGINT(zero lead) re
 # Test good things against the actual function (carefully)
 foreach my $id ( qw{0 1 2 10 123456789} ) {
 	is( Params::SomeUtil::_NONNEGINT($id), $id, "...::_NONNEGINT('$id') returns ok" );
+	$id =~ /(\d+)/;
+	is(Params::SomeUtil::_NONNEGINT($1), $1, "...::_NONNEGINT('$1') returns ok");
 }
 
 # Import the function
@@ -313,6 +343,8 @@ null( _NONNEGINT("02"),         '_NONNEGINT(zero lead) returns undef' );
 # Test good things against the actual function (carefully)
 foreach my $id ( qw{0 1 2 10 123456789} ) {
 	is( _NONNEGINT($id), $id, "_NONNEGINT('$id') returns ok" );
+	$id =~ /(\d+)/;
+	is(_NONNEGINT($1), $1, "_NONNEGINT('$1') returns ok");
 }
 
 
@@ -439,6 +471,9 @@ null( Params::SomeUtil::_ARRAY(\'foo'),       '...::_ARRAY(SCALAR) returns undef
 null( Params::SomeUtil::_ARRAY({ foo => 1 }), '...::_ARRAY(HASH) returns undef' );
 null( Params::SomeUtil::_ARRAY(sub () { 1 }), '...::_ARRAY(CODE) returns undef' );
 null( Params::SomeUtil::_ARRAY([]),           '...::_ARRAY(empty ARRAY) returns undef' );
+null( Params::SomeUtil::_ARRAY( bless([1, 2, 3], "TEST") ),
+                                              '...::_ARRAY(blessed ARRAY) returns undef' );
+
 
 # Test good things against the actual function (carefully)
 is( ref(Params::SomeUtil::_ARRAY([ undef ])), 'ARRAY', '...::_ARRAY([undef]) returns true' );
@@ -461,6 +496,8 @@ null( _ARRAY(\'foo'),       '_ARRAY(SCALAR) returns undef' );
 null( _ARRAY({ foo => 1 }), '_ARRAY(HASH) returns undef' );
 null( _ARRAY(sub () { 1 }), '_ARRAY(CODE) returns undef' );
 null( _ARRAY([]),           '_ARRAY(empty ARRAY) returns undef' );
+null( _ARRAY( bless([1, 2, 3], "TEST") ),
+                            '_ARRAY(blessed ARRAY) returns undef' );
 
 # Test good things against the actual function (carefully)
 is( ref(_ARRAY([ undef ])), 'ARRAY', '_ARRAY([undef]) returns true' );
@@ -485,6 +522,9 @@ null( Params::SomeUtil::_ARRAY0('foo'),        '...::_ARRAY0(string) returns und
 null( Params::SomeUtil::_ARRAY0(\'foo'),       '...::_ARRAY0(SCALAR) returns undef' );
 null( Params::SomeUtil::_ARRAY0({ foo => 1 }), '...::_ARRAY0(HASH) returns undef' );
 null( Params::SomeUtil::_ARRAY0(sub () { 1 }), '...::_ARRAY0(CODE) returns undef' );
+null( Params::SomeUtil::_ARRAY0( bless([], "TEST") ),
+                                              '...::_ARRAY0(blessed ARRAY) returns undef' );
+
 
 # Test good things against the actual function (carefully)
 is( ref(Params::SomeUtil::_ARRAY0([])),         'ARRAY', '...::_ARRAY0(empty ARRAY) returns undef' );
@@ -507,6 +547,8 @@ null( _ARRAY0('foo'),        '_ARRAY0(string) returns undef' );
 null( _ARRAY0(\'foo'),       '_ARRAY0(SCALAR) returns undef' );
 null( _ARRAY0({ foo => 1 }), '_ARRAY0(HASH) returns undef' );
 null( _ARRAY0(sub () { 1 }), '_ARRAY0(CODE) returns undef' );
+null( _ARRAY0( bless([], "TEST") ),
+                                              '...::_ARRAY0(blessed ARRAY) returns undef' );
 
 # Test good things against the actual function (carefully)
 is( ref(_ARRAY0([])),         'ARRAY', '_ARRAY0(empty ARRAY) returns undef' );
@@ -535,6 +577,8 @@ null( Params::SomeUtil::_HASH(\'foo'),       '...::_HASH(SCALAR) returns undef' 
 null( Params::SomeUtil::_HASH([ 'foo' ]),    '...::_HASH(ARRAY) returns undef' );
 null( Params::SomeUtil::_HASH(sub () { 1 }), '...::_HASH(CODE) returns undef' );
 null( Params::SomeUtil::_HASH({}),           '...::_HASH(empty HASH) returns undef' );
+null( Params::SomeUtil::_HASH(bless({"foo" => "bar"}, "TEST")),
+					 '...::_HASH(blessed HASH) returns undef' );
 
 # Test good things against the actual function (carefully)
 is( ref(Params::SomeUtil::_HASH({ foo => 1 })), 'HASH', '...::_HASH([undef]) returns ok' );
@@ -559,6 +603,8 @@ null( _HASH(\'foo'),       '_HASH(SCALAR) returns undef' );
 null( _HASH([]),           '_HASH(ARRAY) returns undef' );
 null( _HASH(sub () { 1 }), '_HASH(CODE) returns undef' );
 null( _HASH({}),           '...::_HASH(empty HASH) returns undef' );
+null( _HASH(bless({"foo" => "bar"}, "TEST")),
+			   '_HASH(blessed HASH) returns undef' );
 
 # Test good things against the actual function (carefully)
 is( ref(_HASH({ foo => 1 })), 'HASH', '_HASH([undef]) returns true' );
@@ -585,6 +631,8 @@ null( Params::SomeUtil::_HASH0('foo'),        '...::_HASH0(string) returns undef
 null( Params::SomeUtil::_HASH0(\'foo'),       '...::_HASH0(SCALAR) returns undef' );
 null( Params::SomeUtil::_HASH0([ 'foo' ]),    '...::_HASH0(ARRAY) returns undef' );
 null( Params::SomeUtil::_HASH0(sub () { 1 }), '...::_HASH0(CODE) returns undef' );
+null( Params::SomeUtil::_HASH0(bless({}, "TEST")),       '...::_HASH0(blessed HASH) returns undef' );
+
 
 # Test good things against the actual function (carefully)
 is( ref(Params::SomeUtil::_HASH0({})),         'HASH', '...::_HASH0(empty ARRAY) returns undef' );
@@ -609,6 +657,8 @@ null( _HASH0('foo'),        '_HASH0(string) returns undef' );
 null( _HASH0(\'foo'),       '_HASH0(SCALAR) returns undef' );
 null( _HASH0([]),           '_HASH0(ARRAY) returns undef' );
 null( _HASH0(sub () { 1 }), '_HASH0(CODE) returns undef' );
+null( _HASH0(bless({}, "TEST")),
+                            '_HASH0(blessed HASH) returns undef' );
 
 # Test good things against the actual function (carefully)
 is( ref(_HASH0({})),            'HASH', '_HASH0(empty ARRAY) returns undef' );
@@ -885,6 +935,7 @@ null( _SET0($set{unblessed}, 'Foo'),     '_SET0(unblessed ARRAY) returns undef' 
 
 
 
+done_testing;
 
 exit(0);
 
