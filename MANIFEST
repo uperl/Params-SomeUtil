@@ -17,15 +17,6 @@ t/06_invocant.t
 t/07_handle.t
 t/08_driver.t
 t/09_insideout.t
-t/11_compile.t
-t/12_main.t
-t/13_all.t
-t/14_codelike.t
-t/15_typelike.t
-t/16_invocant.t
-t/17_handle.t
-t/18_driver.t
-t/19_insideout.t
 t/driver/A.pm
 t/driver/B.pm
 t/driver/D.pm
