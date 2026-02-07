@@ -65,7 +65,7 @@ the following changes that were applied after 1.07:
 =over 4
 
 =item Fix for L<RT#87649|https://rt.cpan.org/Public/Bug/Display.html?id=87649>
-and <RT#87649|https://rt.cpan.org/Public/Bug/Display.html?id=87649>
+and L<RT#87649|https://rt.cpan.org/Public/Bug/Display.html?id=87649>
 
 These are for _CLASS and _POSINT, with similar fixes for _STRING,
 _IDENTIFIER, _NUMBER and _NONNEGINT.
