@@ -182,7 +182,7 @@ CODE:
 {
     if( SvMAGICAL(ref) )
         mg_get(ref);
-    if( is_array(ref) )
+    if( is_array(ref) && !sv_isobject(ref) )
     {
         ST(0) = ref;
         XSRETURN(1);
@@ -235,7 +235,7 @@ CODE:
 {
     if( SvMAGICAL(ref) )
         mg_get(ref);
-    if( is_hash(ref) )
+    if( is_hash(ref) && !sv_isobject(ref) )
     {
         ST(0) = ref;
         XSRETURN(1);

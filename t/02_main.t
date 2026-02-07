@@ -522,6 +522,9 @@ null( Params::SomeUtil::_ARRAY0('foo'),        '...::_ARRAY0(string) returns und
 null( Params::SomeUtil::_ARRAY0(\'foo'),       '...::_ARRAY0(SCALAR) returns undef' );
 null( Params::SomeUtil::_ARRAY0({ foo => 1 }), '...::_ARRAY0(HASH) returns undef' );
 null( Params::SomeUtil::_ARRAY0(sub () { 1 }), '...::_ARRAY0(CODE) returns undef' );
+null( Params::SomeUtil::_ARRAY0( bless([], "TEST") ),
+                                              '...::_ARRAY0(blessed ARRAY) returns undef' );
+
 
 # Test good things against the actual function (carefully)
 is( ref(Params::SomeUtil::_ARRAY0([])),         'ARRAY', '...::_ARRAY0(empty ARRAY) returns undef' );
@@ -544,6 +547,8 @@ null( _ARRAY0('foo'),        '_ARRAY0(string) returns undef' );
 null( _ARRAY0(\'foo'),       '_ARRAY0(SCALAR) returns undef' );
 null( _ARRAY0({ foo => 1 }), '_ARRAY0(HASH) returns undef' );
 null( _ARRAY0(sub () { 1 }), '_ARRAY0(CODE) returns undef' );
+null( _ARRAY0( bless([], "TEST") ),
+                                              '...::_ARRAY0(blessed ARRAY) returns undef' );
 
 # Test good things against the actual function (carefully)
 is( ref(_ARRAY0([])),         'ARRAY', '_ARRAY0(empty ARRAY) returns undef' );
@@ -626,6 +631,8 @@ null( Params::SomeUtil::_HASH0('foo'),        '...::_HASH0(string) returns undef
 null( Params::SomeUtil::_HASH0(\'foo'),       '...::_HASH0(SCALAR) returns undef' );
 null( Params::SomeUtil::_HASH0([ 'foo' ]),    '...::_HASH0(ARRAY) returns undef' );
 null( Params::SomeUtil::_HASH0(sub () { 1 }), '...::_HASH0(CODE) returns undef' );
+null( Params::SomeUtil::_HASH0(bless({}, "TEST")),       '...::_HASH0(blessed HASH) returns undef' );
+
 
 # Test good things against the actual function (carefully)
 is( ref(Params::SomeUtil::_HASH0({})),         'HASH', '...::_HASH0(empty ARRAY) returns undef' );
@@ -650,6 +657,8 @@ null( _HASH0('foo'),        '_HASH0(string) returns undef' );
 null( _HASH0(\'foo'),       '_HASH0(SCALAR) returns undef' );
 null( _HASH0([]),           '_HASH0(ARRAY) returns undef' );
 null( _HASH0(sub () { 1 }), '_HASH0(CODE) returns undef' );
+null( _HASH0(bless({}, "TEST")),
+                            '_HASH0(blessed HASH) returns undef' );
 
 # Test good things against the actual function (carefully)
 is( ref(_HASH0({})),            'HASH', '_HASH0(empty ARRAY) returns undef' );
