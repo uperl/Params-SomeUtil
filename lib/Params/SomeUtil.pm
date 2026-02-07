@@ -893,6 +893,7 @@ sub _alt_hook {
     our @EXPORT_OK   = @Params::SomeUtil::EXPORT_OK;
     our @ISA         = @Params::SomeUtil::ISA;
     our %EXPORT_TAGS = %Params::SomeUtil::EXPORT_TAGS;
+    our $VERSION     = 1.07;
 
     foreach my $sub (@EXPORT_OK) {
         no strict 'refs';
