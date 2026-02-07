@@ -24,7 +24,9 @@ Params::SomeUtil - Simple, compact and correct param-checking functions
 =head1 DESCRIPTION
 
 C<Params::SomeUtil> provides a basic set of importable functions that makes
-checking parameters a hell of a lot easier
+checking parameters a hell of a lot easier.  This module is a fork
+of version 1.07 of L<Params::Util> with some additional bug fixes, see L</WHY>
+below.
 
 While they can be (and are) used in other contexts, the main point
 behind this module is that the functions B<both> Do What You Mean,
@@ -50,6 +52,62 @@ You must explicitly name the functions you want to export, or use the
 C<:ALL> param to just have it export everything (although this is not
 recommended if you have any _FOO functions yourself with which future
 additions to C<Params::SomeUtil> may clash)
+
+=head1 WHY
+
+L<Params::Util> already exists and has for some time.  Unfortunately,
+while the current maintainer has accepted patches to the project's
+git repostiroy, he refuses to make new releases of the module.  I
+offered to help cut a new release but refused citing "quality" as an
+issue without elaborating, thus this fork.  This module includes
+the following changes that were applied after 1.07:
+
+=over 4
+
+=item Fix for L<RT#87649|https://rt.cpan.org/Public/Bug/Display.html?id=87649>
+and <RT#87649|https://rt.cpan.org/Public/Bug/Display.html?id=87649>
+
+These are for _CLASS and _POSINT, with similar fixes for _STRING,
+_IDENTIFIER, _NUMBER and _NONNEGINT.
+
+=item Fix for L<RT#115910|https://rt.cpan.org/Public/Bug/Display.html?id=115910>
+
+But without the Americanised "corrections".
+
+=back
+
+These are the intentional differences from L<Params::Util>:
+
+=over 4
+
+=item XS build is unchanged from 1.07
+
+Although some improvements can likely be made here (patches welcome), the changes made
+since 1.07 have broken the ability to install this module without a compiler.
+
+=item PP versions of functions are not in a separate module
+
+There us currently no C<Params::SomeUtil::PP>.  There probably should be, and may
+later be, but for now I wanted to make the minimum changes to make this viable.
+(patches welcome)
+
+=item Fix for L<RT#5561|https://rt.cpan.org/Public/Bug/Display.html?id=75561>
+
+The XS versions of _ARRAY, _ARRAY0, _HASH and _HASH0 were inconsistent with the pure-perl
+versions, and the documentation.  The suggested fixes in the ticket were applied for
+_ARRAY and _HASH.  It was clear to me from reading the documentation that _ARRAY0 and
+_HASH0 also had the same bug so they have also been corrected.
+
+=back
+
+This is as of L<Params::Util> version 1.102, which is the current version as of this writing.
+If there is a release of L<Params::Util> I will endevour to update this list.
+
+My preference would be for releases of L<Params::Util> resume and for it to be
+maintained by someone responsive to tickets.  I am not a direct user of L<Params::Util>,
+or L<Params::SomeUtil> and I do not particularly want to maintain this module,
+but given the way the CPAN ecosystem works this seems to strangely be the "easiest"
+way to work around the challenge that I have.
 
 =head1 FUNCTIONS
 
@@ -873,7 +931,19 @@ Graham Ollis (PLICEASE)
 
 Contributors
 
-Paul Cochrane E<lt>paul@liekut.deE<gt>
+Paul Cochrane (PTC)
+
+Ricardo Signes (RGBS)
+
+RAFL
+
+Andrew Main (ZEFRAM)
+
+David Golden (DAGOLDEN)
+
+Tatsuhiko Miyagawa (MIYAGAWA)
+
+Peter Rabbitson (RIBASUSHI)
 
 =head1 SEE ALSO
 

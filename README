@@ -1,14 +1,14 @@
 NAME
-    Params::Util - Simple, compact and correct param-checking functions
+    Params::SomeUtil - Simple, compact and correct param-checking functions
 
 SYNOPSIS
       # Import some functions
-      use Params::Util qw{_SCALAR _HASH _INSTANCE};
-      
-  # If you are lazy, or need a lot of them...
-      use Params::Util ':ALL';
-      
-  sub foo {
+      use Params::SomeUtil qw{_SCALAR _HASH _INSTANCE};
+  
+      # If you are lazy, or need a lot of them...
+      use Params::SomeUtil ':ALL';
+  
+      sub foo {
           my $object  = _INSTANCE(shift, 'Foo') or return undef;
           my $image   = _SCALAR(shift)          or return undef;
           my $options = _HASH(shift)            or return undef;
@@ -16,8 +16,10 @@ SYNOPSIS
       }
 
 DESCRIPTION
-    "Params::Util" provides a basic set of importable functions that makes
-    checking parameters a hell of a lot easier
+    "Params::SomeUtil" provides a basic set of importable functions that
+    makes checking parameters a hell of a lot easier. This module is a fork
+    of version 1.07 of Params::Util with some additional bug fixes, see
+    "WHY" below.
 
     While they can be (and are) used in other contexts, the main point
     behind this module is that the functions both Do What You Mean, and Do
@@ -25,10 +27,10 @@ DESCRIPTION
     passed into your code from someone and/or somewhere else and you can't
     really trust the quality.
 
-    Thus, "Params::Util" is of most use at the edges of your API, where
+    Thus, "Params::SomeUtil" is of most use at the edges of your API, where
     params and data are coming in from outside your code.
 
-    The functions provided by "Params::Util" check in the most strictly
+    The functions provided by "Params::SomeUtil" check in the most strictly
     correct manner known, are documented as thoroughly as possible so their
     exact behaviour is clear, and heavily tested so make sure they are not
     fooled by weird data and Really Bad Things.
@@ -36,12 +38,60 @@ DESCRIPTION
     To use, simply load the module providing the functions you want to use
     as arguments (as shown in the SYNOPSIS).
 
-    To aid in maintainability, "Params::Util" will never export by default.
+    To aid in maintainability, "Params::SomeUtil" will never export by
+    default.
 
     You must explicitly name the functions you want to export, or use the
     ":ALL" param to just have it export everything (although this is not
     recommended if you have any _FOO functions yourself with which future
-    additions to "Params::Util" may clash)
+    additions to "Params::SomeUtil" may clash)
+
+WHY
+    Params::Util already exists and has for some time. Unfortunately, while
+    the current maintainer has accepted patches to the project's git
+    repostiroy, he refuses to make new releases of the module. I offered to
+    help cut a new release but refused citing "quality" as an issue without
+    elaborating, thus this fork. This module includes the following changes
+    that were applied after 1.07:
+
+    Fix for RT#87649 <https://rt.cpan.org/Public/Bug/Display.html?id=87649>
+    and <RT#87649|https://rt.cpan.org/Public/Bug/Display.html?id=87649>
+        These are for _CLASS and _POSINT, with similar fixes for _STRING,
+        _IDENTIFIER, _NUMBER and _NONNEGINT.
+
+    Fix for RT#115910
+    <https://rt.cpan.org/Public/Bug/Display.html?id=115910>
+        But without the Americanised "corrections".
+
+    These are the intentional differences from Params::Util:
+
+    XS build is unchanged from 1.07
+        Although some improvements can likely be made here (patches
+        welcome), the changes made since 1.07 have broken the ability to
+        install this module without a compiler.
+
+    PP versions of functions are not in a separate module
+        There us currently no "Params::SomeUtil::PP". There probably should
+        be, and may later be, but for now I wanted to make the minimum
+        changes to make this viable. (patches welcome)
+
+    Fix for RT#5561 <https://rt.cpan.org/Public/Bug/Display.html?id=75561>
+        The XS versions of _ARRAY, _ARRAY0, _HASH and _HASH0 were
+        inconsistent with the pure-perl versions, and the documentation. The
+        suggested fixes in the ticket were applied for _ARRAY and _HASH. It
+        was clear to me from reading the documentation that _ARRAY0 and
+        _HASH0 also had the same bug so they have also been corrected.
+
+    This is as of Params::Util version 1.102, which is the current version
+    as of this writing. If there is a release of Params::Util I will
+    endevour to update this list.
+
+    My preference would be for releases of Params::Util resume and for it to
+    be maintained by someone responsive to tickets. I am not a direct user
+    of Params::Util, or Params::SomeUtil and I do not particularly want to
+    maintain this module, but given the way the CPAN ecosystem works this
+    seems to strangely be the "easiest" way to work around the challenge
+    that I have.
 
 FUNCTIONS
   _STRING $string
@@ -54,15 +104,15 @@ FUNCTIONS
 
       # '0' not considered valid data
       my $name = _STRING(shift) or die "Bad name";
-      
-  # '0' is considered valid data
+  
+      # '0' is considered valid data
       my $string = _STRING($_[0]) ? shift : die "Bad string";
 
     Please also note that this function expects a normal string. It does not
     support overloading or other magic techniques to get a string.
 
-    Returns the string as a conveince if it is a valid string, or "undef" if
-    not.
+    Returns the string as a convenience if it is a valid string, or "undef"
+    if not.
 
   _IDENTIFIER $string
     The "_IDENTIFIER" function is intended to be imported into your package,
@@ -122,10 +172,10 @@ FUNCTIONS
     provides a convenient way to test to see if a value is a number. That
     is, it is defined and perl thinks it's a number.
 
-    This function is basically a Params::Util-style wrapper around the
+    This function is basically a Params::SomeUtil-style wrapper around the
     Scalar::Util "looks_like_number" function.
 
-    Returns the value as a convience, or "undef" if the value is not a
+    Returns the value as a convenience, or "undef" if the value is not a
     number.
 
   _POSINT $integer
@@ -133,7 +183,7 @@ FUNCTIONS
     provides a convenient way to test to see if a value is a positive
     integer (of any length).
 
-    Returns the value as a convience, or "undef" if the value is not a
+    Returns the value as a convenience, or "undef" if the value is not a
     positive integer.
 
     The name itself is derived from the XML schema constraint of the same
@@ -145,11 +195,11 @@ FUNCTIONS
     non-negative integer (of any length). That is, a positive integer, or
     zero.
 
-    Returns the value as a convience, or "undef" if the value is not a
+    Returns the value as a convenience, or "undef" if the value is not a
     non-negative integer.
 
     As with other tests that may return false values, care should be taken
-    to test via "defined" in boolean validy contexts.
+    to test via "defined" in valid boolean contexts.
 
       unless ( defined _NONNEGINT($value) ) {
          die "Invalid value";
@@ -343,7 +393,7 @@ FUNCTIONS
     anyway).
 
     That said, it is implement as well or better than the other file handle
-    detectors in existance (and we stole from the best of them).
+    detectors in existence (and we stole from the best of them).
 
   _DRIVER $string
       sub foo {
@@ -366,23 +416,40 @@ FUNCTIONS
 TO DO
     - Add _CAN to help resolve the UNIVERSAL::can debacle
 
-    - Would be even nicer if someone would demonstrate how the hell to build
-    a Module::Install dist of the ::Util dual Perl/XS type. :/
-
     - Implement an assertion-like version of this module, that dies on
     error.
 
     - Implement a Test:: version of this module, for use in testing
 
 SUPPORT
-    Bugs should be reported via the CPAN bug tracker at
+    Bugs should be reported on the GitHub for this repository
 
-    <http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Params-Util>
+    <https://github.com/uperl/Params-SomeUtil/issues>
 
     For other issues, contact the author.
 
 AUTHOR
     Adam Kennedy <adamk@cpan.org>
+
+    Maintained by
+
+    Graham Ollis (PLICEASE)
+
+    Contributors
+
+    Paul Cochrane (PTC)
+
+    Ricardo Signes (RGBS)
+
+    RAFL
+
+    Andrew Main (ZEFRAM)
+
+    David Golden (DAGOLDEN)
+
+    Tatsuhiko Miyagawa (MIYAGAWA)
+
+    Peter Rabbitson (RIBASUSHI)
 
 SEE ALSO
     Params::Validate
