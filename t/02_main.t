@@ -471,6 +471,9 @@ null( Params::SomeUtil::_ARRAY(\'foo'),       '...::_ARRAY(SCALAR) returns undef
 null( Params::SomeUtil::_ARRAY({ foo => 1 }), '...::_ARRAY(HASH) returns undef' );
 null( Params::SomeUtil::_ARRAY(sub () { 1 }), '...::_ARRAY(CODE) returns undef' );
 null( Params::SomeUtil::_ARRAY([]),           '...::_ARRAY(empty ARRAY) returns undef' );
+null( Params::SomeUtil::_ARRAY( bless([1, 2, 3], "TEST") ),
+                                              '...::_ARRAY(blessed ARRAY) returns undef' );
+
 
 # Test good things against the actual function (carefully)
 is( ref(Params::SomeUtil::_ARRAY([ undef ])), 'ARRAY', '...::_ARRAY([undef]) returns true' );
@@ -493,6 +496,8 @@ null( _ARRAY(\'foo'),       '_ARRAY(SCALAR) returns undef' );
 null( _ARRAY({ foo => 1 }), '_ARRAY(HASH) returns undef' );
 null( _ARRAY(sub () { 1 }), '_ARRAY(CODE) returns undef' );
 null( _ARRAY([]),           '_ARRAY(empty ARRAY) returns undef' );
+null( _ARRAY( bless([1, 2, 3], "TEST") ),
+                            '_ARRAY(blessed ARRAY) returns undef' );
 
 # Test good things against the actual function (carefully)
 is( ref(_ARRAY([ undef ])), 'ARRAY', '_ARRAY([undef]) returns true' );
@@ -567,6 +572,8 @@ null( Params::SomeUtil::_HASH(\'foo'),       '...::_HASH(SCALAR) returns undef' 
 null( Params::SomeUtil::_HASH([ 'foo' ]),    '...::_HASH(ARRAY) returns undef' );
 null( Params::SomeUtil::_HASH(sub () { 1 }), '...::_HASH(CODE) returns undef' );
 null( Params::SomeUtil::_HASH({}),           '...::_HASH(empty HASH) returns undef' );
+null( Params::SomeUtil::_HASH(bless({"foo" => "bar"}, "TEST")),
+					 '...::_HASH(blessed HASH) returns undef' );
 
 # Test good things against the actual function (carefully)
 is( ref(Params::SomeUtil::_HASH({ foo => 1 })), 'HASH', '...::_HASH([undef]) returns ok' );
@@ -591,6 +598,8 @@ null( _HASH(\'foo'),       '_HASH(SCALAR) returns undef' );
 null( _HASH([]),           '_HASH(ARRAY) returns undef' );
 null( _HASH(sub () { 1 }), '_HASH(CODE) returns undef' );
 null( _HASH({}),           '...::_HASH(empty HASH) returns undef' );
+null( _HASH(bless({"foo" => "bar"}, "TEST")),
+			   '_HASH(blessed HASH) returns undef' );
 
 # Test good things against the actual function (carefully)
 is( ref(_HASH({ foo => 1 })), 'HASH', '_HASH([undef]) returns true' );

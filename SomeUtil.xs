@@ -199,7 +199,7 @@ CODE:
 {
     if( SvMAGICAL(ref) )
         mg_get(ref);
-    if( is_array(ref) && ( av_len((AV *)(SvRV(ref))) >= 0 ) )
+    if( is_array(ref) && ( av_len((AV *)(SvRV(ref))) >= 0 ) && !sv_isobject(ref) )
     {
         ST(0) = ref;
         XSRETURN(1);
@@ -252,7 +252,7 @@ CODE:
 {
     if( SvMAGICAL(ref) )
         mg_get(ref);
-    if( is_hash(ref) && ( HvKEYS(SvRV(ref)) >= 1 ) )
+    if( is_hash(ref) && ( HvKEYS(SvRV(ref)) >= 1 ) && !sv_isobject(ref) )
     {
         ST(0) = ref;
         XSRETURN(1);
