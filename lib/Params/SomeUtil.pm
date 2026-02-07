@@ -109,6 +109,8 @@ or L<Params::SomeUtil> and I do not particularly want to maintain this module,
 but given the way the CPAN ecosystem works this seems to strangely be the "easiest"
 way to work around the challenge that I have.
 
+I would love to retire this module and make it a compatibility layer if it becomes unnecessary.
+
 =head1 FUNCTIONS
 
 =cut
