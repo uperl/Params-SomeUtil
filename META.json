@@ -24,7 +24,7 @@
          "requires" : {
             "ExtUtils::MakeMaker" : "6.52",
             "File::Spec" : "0.80",
-            "Test::More" : "0.42"
+            "Test::More" : "0.87"
          }
       },
       "configure" : {
@@ -41,6 +41,18 @@
       }
    },
    "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/uperl/Params-SomeUtil/issues"
+      },
+      "homepage" : "https://metacpan.org/pod/Params::SomeUtil",
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/uperl/Params-SomeUtil.git",
+         "web" : "https://github.com/uperl/Params-SomeUtil"
+      },
+      "x_IRC" : "irc://irc.perl.org/#native"
+   },
    "version" : "1.07",
    "x_serialization_backend" : "JSON::PP version 4.16"
 }
