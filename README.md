@@ -61,7 +61,7 @@ issue without elaborating, thus this fork.  This module includes
 the following changes that were applied after 1.07:
 
 - Fix for [RT#87649](https://rt.cpan.org/Public/Bug/Display.html?id=87649)
-and <RT#87649|https://rt.cpan.org/Public/Bug/Display.html?id=87649>
+and [RT#87649](https://rt.cpan.org/Public/Bug/Display.html?id=87649)
 
     These are for \_CLASS and \_POSINT, with similar fixes for \_STRING,
     \_IDENTIFIER, \_NUMBER and \_NONNEGINT.
