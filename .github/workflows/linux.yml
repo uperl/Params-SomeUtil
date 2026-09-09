@@ -17,10 +17,14 @@ jobs:
       fail-fast: false
       matrix:
         cip:
-          - tag: "5.41"
+          - tag: "5.45"
             pp: 0
-          - tag: "5.40"
+          - tag: "5.44"
             pp: 1
+          - tag: "5.44"
+            pp: 0
+          - tag: "5.42"
+            pp: 0
           - tag: "5.40"
             pp: 0
           - tag: "5.38"
