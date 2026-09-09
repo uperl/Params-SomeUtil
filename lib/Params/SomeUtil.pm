@@ -98,6 +98,19 @@ versions, and the documentation.  The suggested fixes in the ticket were applied
 _ARRAY and _HASH.  It was clear to me from reading the documentation that _ARRAY0 and
 _HASH0 also had the same bug so they have also been corrected.
 
+=item Missing _CLASSCAN, _INSTANCECAN and _INVOCANTCAN
+
+Upstream L<Params::Util> added these to avoid the C<UNIVERSAL::can> pitfall
+(calling C<can> as a function bypasses any overridden C<can> method), but only
+in the unreleased 1.105_001 developer release. Since there hasn't been a public
+release of L<Params::Util> that includes them, they are not implemented here.
+We will consider implementing them if and when there is one.
+
+If you're using a new enough Perl to have the core C<isa> operator (5.32+,
+stable since 5.36), it's worth reaching for that instead: C<< $thing isa
+$class >> dispatches safely without a dependency, for the common case where a
+class/instance relationship check is all you need.
+
 =back
 
 This is as of L<Params::Util> version 1.102, which is the current version as of this writing.
