@@ -207,6 +207,11 @@ C<undef> if not.
 
 eval <<'END_PERL' unless defined &_STRING;
 sub _STRING ($) {
+	# Unlike _IDENTIFIER/_CLASS/_POSINT/etc (rt#81276), this does not
+	# copy $_[0] to a lexical first. Those needed the copy because a
+	# capture-less regex match against an aliased $1 clears $1 (and
+	# thus $_[0]) as a side effect. length() performs no match/mutation,
+	# so $_[0] is safe to use directly here even when passed $1.
 	(defined $_[0] and ! ref $_[0] and length($_[0])) ? $_[0] : undef;
 }
 END_PERL
@@ -343,6 +348,11 @@ number.
 
 eval <<'END_PERL' unless defined &_NUMBER;
 sub _NUMBER ($) {
+	# Unlike _IDENTIFIER/_CLASS/_POSINT/etc (rt#81276), this does not
+	# copy $_[0] to a lexical first. Those needed the copy because a
+	# capture-less regex match against an aliased $1 clears $1 (and
+	# thus $_[0]) as a side effect. looks_like_number() is not a regex
+	# match, so $_[0] is safe to use directly here even when passed $1.
 	( defined $_[0] and ! ref $_[0] and looks_like_number($_[0]) )
 	? $_[0]
 	: undef;
